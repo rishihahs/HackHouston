@@ -18,7 +18,7 @@ jQuery(document).ready(function($) {
       'City Controller'
   ];
 
-  var department_template  = Mustache.compile($.trim($("#department_template").html()));
+  var department_template = Mustache.compile($.trim($("#department_template").html()));
   var department_container = $('#department_criteria');
 
   $.each(all_deps, function(i, g) {
