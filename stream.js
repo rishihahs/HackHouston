@@ -23,7 +23,7 @@ jQuery(document).ready(function($) {
 
   $.each(all_deps, function(i, g) {
     department_container.append(department_template({
-      genre: g
+      department: g
     }));
   });
 
