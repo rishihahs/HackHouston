@@ -1,60 +1,71 @@
 jQuery(document).ready(function($) {
 
-  var all_deps = [ 'PWE',
-  'Health and Human Services',
-  'Houston Airport System',
-  'City Secretary',
-  'Department of Neighborhoods',
-  'Library',
-  'Administration and Regulatory Affairs',
-  'Finance',
-  'Parks and Recreation',
-  'Police',
-  'Municipal Courts Department',
-  'Solid Waste Management',
-  'Fire',
-  'Planning and Development',
-  'Mayor Office',
-  'City Controller' ];
-  var genre_template = Mustache.compile($.trim($("#genre_template").html()))
-      ,$genre_container = $('#genre_criteria') 
+  var all_deps = ['PWE',
+      'Health and Human Services',
+      'Houston Airport System',
+      'City Secretary',
+      'Department of Neighborhoods',
+      'Library',
+      'Administration and Regulatory Affairs',
+      'Finance',
+      'Parks and Recreation',
+      'Police',
+      'Municipal Courts Department',
+      'Solid Waste Management',
+      'Fire',
+      'Planning and Development',
+      'Mayor Office',
+      'City Controller'
+  ];
 
-  $.each(all_deps, function(i, g){
-    $genre_container.append(genre_template({genre: g}));
+  var department_template  = Mustache.compile($.trim($("#department_template").html()));
+  var department_container = $('#department_criteria');
+
+  $.each(all_deps, function(i, g) {
+    department_container.append(department_template({
+      genre: g
+    }));
   });
 
-  
 
-  $.each(master_fees, function(i, m){ m.id = i+1; });
-  window.mf = MovieFilter(master_fees);
 
-  $('#genre_criteria :checkbox').prop('checked', true);
-  $('#all_genre').on('click', function(e){
-    $('#genre_criteria :checkbox:gt(0)').prop('checked', $(this).is(':checked'));
-    mf.filter();
+  $.each(master_fees, function(i, m) {
+    m.id = i + 1;
+  });
+
+  window.fee_filter = create_filter(master_fees);
+
+  $('#department_criteria :checkbox').prop('checked', true);
+  $('#all_departments').on('click', function(e) {
+    $('#department_criteria :checkbox:gt(0)').prop('checked', $(this).is(':checked'));
+    fee_filter.filter();
   });
 
 });
 
-var MovieFilter = function(data){
+var create_filter = function(data) {
   var template = Mustache.compile($.trim($("#template").html()));
 
-  var view = function(movie){
-    return template(movie);
+  var view = function(fee) {
+    return template(fee);
   };
+
   var callbacks = {
-    show_search_count: function(result){
-      $('#total_movies').text(result.length);
+    show_search_count: function(result) {
+      $('#total_fees').text(result.length);
     },
   };
 
   options = {
     filter_criteria: {
-      genre: ['#genre_criteria input:checkbox:gt(0)', 'ResponsibleDepartment']
+      department: ['#department_criteria input:checkbox:gt(0)', 'ResponsibleDepartment']
     },
     and_filter_on: true,
     callbacks: callbacks,
-    search: {input: '#searchbox'}/*,
+    search: {
+      input: '#searchbox'
+    }
+    /*,
     streaming: {
       data_url: 'data/top_movies_data.json', 
       stream_after: 1,
@@ -75,6 +86,5 @@ var MovieFilter = function(data){
     }*/
   }
 
-  return FilterJS(data, "#movies", view, options);
+  return FilterJS(data, "#fees", view, options);
 }
-
