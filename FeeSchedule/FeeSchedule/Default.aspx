@@ -22,8 +22,12 @@
       <asp:SqlDataSource ID="FeesTableSqlDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:HackHou2008ConnectionString %>" SelectCommand="GetJSON" SelectCommandType="StoredProcedure">
           <SelectParameters>
               <asp:Parameter DefaultValue="feestable" Name="table_name" Type="String" />
-              
-             
+          </SelectParameters>
+      </asp:SqlDataSource>
+        <asp:SqlDataSource ID="AlcoholTableSqlDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:HackHou2008ConnectionString %>" SelectCommand="GetJSON" SelectCommandType="StoredProcedure">
+          <SelectParameters>
+              <asp:Parameter DefaultValue="alcoholfees" Name="table_name" Type="String" />
+              <asp:Parameter DefaultValue="Alcohol" Name="department" Type="String" />
           </SelectParameters>
       </asp:SqlDataSource>
     <form id="form2" runat="server">
