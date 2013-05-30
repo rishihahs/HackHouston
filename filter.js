@@ -323,7 +323,7 @@
     },
 
     execCallBacks: function(result) {
-      for (name in this.options.callbacks)
+      for (var name in this.options.callbacks)
         this.options.callbacks[name].call(this, result);
     },
 
