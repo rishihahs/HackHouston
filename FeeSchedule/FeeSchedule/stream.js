@@ -1,21 +1,5 @@
 jQuery(document).ready(function($) {
 
-  var all_deps = [ 'PWE',
-  'Health and Human Services',
-  'Houston Airport System',
-  'City Secretary',
-  'Department of Neighborhoods',
-  'Library',
-  'Administration and Regulatory Affairs',
-  'Finance',
-  'Parks and Recreation',
-  'Police',
-  'Municipal Courts Department',
-  'Solid Waste Management',
-  'Fire',
-  'Planning and Development',
-  'Mayor Office',
-  'City Controller' ];
   var genre_template = Mustache.compile($.trim($("#genre_template").html()))
       ,$genre_container = $('#genre_criteria') 
 

@@ -25,21 +25,22 @@
           </SelectParameters>
       </asp:SqlDataSource>
     <form id="form2" runat="server">
-        <asp:SqlDataSource ID="DepartmentDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:HackHou2008ConnectionString %>" SelectCommand="SELECT 'Alcohol' AS ResponsibleDepartment
+        <asp:SqlDataSource ID="DepartmentSqlDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:HackHou2008ConnectionString %>" SelectCommand="SELECT 'TABC' AS ResponsibleDepartment
 UNION ALL
 SELECT DISTINCT ResponsibleDepartment FROM feestable
 ORDER BY ResponsibleDepartment"></asp:SqlDataSource>
+        <asp:SqlDataSource ID="RowCountSqlDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:HackHou2008ConnectionString %>" SelectCommand="SELECT (SELECT COUNT(*) FROM AlcoholFees) + (SELECT COUNT(*) FROM FeesTable)"></asp:SqlDataSource>
         <asp:SqlDataSource ID="AlcoholTableSqlDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:HackHou2008ConnectionString %>" SelectCommand="GetJSON" SelectCommandType="StoredProcedure">
           <SelectParameters>
               <asp:Parameter DefaultValue="alcoholfees" Name="table_name" Type="String" />
-              <asp:Parameter DefaultValue="Alcohol" Name="department" Type="String" />
+              <asp:Parameter DefaultValue="TABC" Name="department" Type="String" />
           </SelectParameters>
       </asp:SqlDataSource>
         <div class="container">
           <h1 class="title">City Fee Schedule</h1>
               <div class="sidebar col-span-3">
                 <div class="row">
-                  <h4 class="col-span-6"> Fees (<span id="total_movies">1905</span>)</h4>
+                  <h4 class="col-span-6"> Fees (<span id="total_movies"><%=totalRows%></span>)</h4>
                 </div>
                 <div>
                   <input type="text" id="searchbox" placeholder="Search...">
@@ -60,17 +61,18 @@ ORDER BY ResponsibleDepartment"></asp:SqlDataSource>
               <script id="template" type="text/html">
                 <div class="col-span-4 movie">
                     <div class="thumbnail">
-                    <span class="label label-success rating">{{AMOUNT}}</span>
+                    <span class="label label-success rating">{{AMOUNT}}{{Initial}}</span>
+                    <span class="label label-success rating">{{Renewal}}</span>                     
                     <div class="caption">
-                        <h4>{{Name}}</h4>
+                        <h4>{{Name}}{{PERMIT TYPE}}</h4>
                         <div class="detail">
                                 <dl>
                                   <dt>Description</dt>
-                                  <dd>{{Description}}</dd>
+                                  <dd>{{Description}}{{TABC Code}}</dd>
                                   <dt>Responsible Department</dt>
                                   <dd>{{ResponsibleDepartment}}</dd>
                                   <dt>Statutory Authority</dt>
-                                  <dd>{{StatutoryAuthority}}</dd>
+                                  <dd>{{StatutoryAuthority}}{{TABC Code}}</dd>
                                 </dl>
                             </div>
                         </div>
