@@ -277,7 +277,7 @@
         record = this.getRecord(i, data);
         this.record_ids.push(record.id);
 
-        for (name in filter_criteria) {
+        for (var name in filter_criteria) {
           categories = eval('record.' + filter_criteria[name][2]);
           obj = this.categories_map[name];
 
