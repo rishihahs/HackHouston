@@ -93,6 +93,8 @@
         el = $container.append(el);
       }
     },
+    
+    prevEvent: null, // Previous event fire
 
     //Bind Events to filter html elements
     bindEvents: function() {
@@ -106,9 +108,16 @@
       }
 
       if (this.options.search) {
-        $(this.options.search.input).on('keyup', function(e) {
-          self.filter();
-        });
+        var options = {
+          callback: function (value) {
+            self.filter();
+          },
+          wait: 600,
+          highlight: true,
+          captureLength: 2
+        }
+                
+        $(this.options.search.input).typeWatch(options);
       }
     },
 
