@@ -223,7 +223,7 @@
         selector, criteria, ele, ele_type;
       this.options.selectors = [];
 
-      for (name in filter_criteria) {
+      for (var name in filter_criteria) {
 
         criteria = filter_criteria[name];
         selector = this.parseSelectorOptions({
