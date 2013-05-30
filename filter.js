@@ -35,7 +35,7 @@
 
     if (this.data.constructor != Array) this.data = [this.data];
 
-    for (name in this.data[0]) {
+    for (var name in this.data[0]) {
       this.root = name;
       property_count += 1;
     }
