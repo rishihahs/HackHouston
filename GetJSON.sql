@@ -8,8 +8,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-
-
 CREATE procedure [dbo].[GetJSON]
 (
 @table_name varchar(50),
@@ -32,97 +30,101 @@ begin
 -- Post Url: http://www.thomasfrank.se/mysql_to_json.html  
 --
 -- Modified by David Young (@deepinthecode http://twitter.com/deepinthecode 
--- http://deepinthecode.com) to allow for a longer JSON return value                --
+-- http://deepinthecode.com) to allow for a longer JSON return value,
+-- changed table to temporary table                --
 
-if((select count(*) from information_schema.tables where table_name =   @table_name)     > 0)
-begin
-	declare	@json varchar(max),
-			@line varchar(max),
-			@columns varchar(max),
-			@sql nvarchar(max),
-			@columnNavigator varchar(50),
-			@counter int,
-			@size varchar(10),
-			@departmentname varchar(50)
-
-	set @departmentname = ''
-	if @department IS NOT NULL SET @departmentname = ',"ResponsibleDepartment":"'+convert(varchar,@department)+'"'
-
-	if (@registries_per_request is null) 
+if((select count(*) from information_schema.tables where table_name = @table_name) > 0)
 	begin
-		set @size = ''
-	end
-	else 
-	begin
-		set @size = 'top ' + convert(varchar, @registries_per_request)
-	end
-	set	@columns = '{'
+		declare	@json varchar(max),
+				@line varchar(max),
+				@columns varchar(max),
+				@sql nvarchar(max),
+				@columnNavigator varchar(50),
+				@counter int,
+				@size varchar(10),
+				@departmentname varchar(50)
 
-	declare	schemaCursor cursor
-	for select column_name from information_schema.columns where table_name = @table_name
-	open	schemaCursor	
+		set @departmentname = ''
+		if @department IS NOT NULL SET @departmentname = ',"ResponsibleDepartment":"'+convert(varchar,@department)+'"'
 
-	fetch next from schemaCursor
-	into  @columnNavigator
-
-	select	@counter = count(*) from information_schema.columns where table_name = @table_name
-
-	while @@fetch_status = 0
-	begin
-		set @columns = @columns + '"' + @columnNavigator + '":"'' + isnull(convert(varchar, [' + @columnNavigator + ']),''N/A'') + ''"'
-		set @counter = @counter - 1
-		if(0 != @counter) 
+		if (@registries_per_request is null) 
 		begin
-			set @columns = @columns + ','
+			set @size = ''
 		end
+		else 
+		begin
+			set @size = 'top ' + convert(varchar, @registries_per_request)
+		end
+		set	@columns = '{'
+
+		declare	schemaCursor cursor
+		for select column_name from information_schema.columns where table_name = @table_name
+		open	schemaCursor	
 
 		fetch next from schemaCursor
 		into  @columnNavigator
-	end	
 
-	set	@columns =  @columns + @departmentname + '}'
+		select	@counter = count(*) from information_schema.columns where table_name = @table_name
 
-	close		schemaCursor
-	deallocate	schemaCursor
-
-	set	@json = '['
-
-	set @sql = 'select  ' + @size + '''' + @columns + ''' as json into tmpJsonTable from ' + @table_name
-	--print @sql
-	exec sp_sqlexec @sql
-	--select * from tmpJsonTable
-	select	@counter = count(*) from tmpJsonTable
-
-	declare	tmpCur cursor
-	for		select * from tmpJsonTable
-	open	tmpCur
-
-	fetch next from tmpCur
-	into  @line
-
-	while @@fetch_status = 0
-	begin
-		set	@counter = @counter - 1
-		set @json = @json + @line
-		if ( 0 != @counter ) 
+		while @@fetch_status = 0
 		begin
-			set @json = @json + ','
-		end
+			set @columns = @columns + '"' + @columnNavigator + '":"'' + isnull(convert(varchar, [' + @columnNavigator + ']),''N/A'') + ''"'
+			set @counter = @counter - 1
+			if(0 != @counter) 
+			begin
+				set @columns = @columns + ','
+			end
+
+			fetch next from schemaCursor
+			into  @columnNavigator
+		end	
+
+		set	@columns =  @columns + @departmentname + '}'
+
+		close		schemaCursor
+		deallocate	schemaCursor
+
+		if OBJECT_ID('tempdb..#tmpJsonTable') IS NOT NULL
+			DROP TABLE #tmpJsonTable
+
+		CREATE TABLE #tmpJsonTable
+		(
+			json NVARCHAR(MAX) NULL
+		)
+		
+		set	@json = '['
+		set @sql = 'insert into #tmpJsonTable select ' + @size + '''' + @columns + ''' as json from ' + @table_name
+		exec sp_sqlexec @sql
+		select	@counter = count(*) from #tmpJsonTable
+
+		declare	tmpCur cursor
+		for		select * from #tmpJsonTable
+		open	tmpCur
 
 		fetch next from tmpCur
 		into  @line
+
+		while @@fetch_status = 0
+		begin
+			set	@counter = @counter - 1
+			set @json = @json + @line
+			if ( 0 != @counter ) 
+			begin
+				set @json = @json + ','
+			end
+
+			fetch next from tmpCur
+			into  @line
+		end
+
+		set	@json = @json + ']'
+
+		close		tmpCur
+		deallocate	tmpCur
+		drop table	#tmpJsonTable
+
+		select @json as json
 	end
-
-	set	@json = @json + ']'
-
-	close		tmpCur
-	deallocate	tmpCur
-	drop table	tmpJsonTable
-
-	--print len(@json)
-	--print right(@json, 10)
-	select @json as json
-end
 end
 
 GO

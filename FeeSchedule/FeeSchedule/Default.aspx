@@ -24,13 +24,17 @@
               <asp:Parameter DefaultValue="feestable" Name="table_name" Type="String" />
           </SelectParameters>
       </asp:SqlDataSource>
+    <form id="form2" runat="server">
+        <asp:SqlDataSource ID="DepartmentDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:HackHou2008ConnectionString %>" SelectCommand="SELECT 'Alcohol' AS ResponsibleDepartment
+UNION ALL
+SELECT DISTINCT ResponsibleDepartment FROM feestable
+ORDER BY ResponsibleDepartment"></asp:SqlDataSource>
         <asp:SqlDataSource ID="AlcoholTableSqlDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:HackHou2008ConnectionString %>" SelectCommand="GetJSON" SelectCommandType="StoredProcedure">
           <SelectParameters>
               <asp:Parameter DefaultValue="alcoholfees" Name="table_name" Type="String" />
               <asp:Parameter DefaultValue="Alcohol" Name="department" Type="String" />
           </SelectParameters>
       </asp:SqlDataSource>
-    <form id="form2" runat="server">
         <div class="container">
           <h1 class="title">City Fee Schedule</h1>
               <div class="sidebar col-span-3">
