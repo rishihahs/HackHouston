@@ -114,7 +114,7 @@
           },
           wait: 600,
           highlight: true,
-          captureLength: 2
+          captureLength: 0
         }
                 
         $(this.options.search.input).typeWatch(options);
