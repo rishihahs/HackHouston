@@ -27,23 +27,27 @@ jQuery(document).ready(function($) {
     }));
   });
 
-
-
-  $.each(master_fees, function(i, m) {
-    m.id = i + 1;
-  });
-
   window.fee_filter = create_filter(master_fees);
 
   $('#department_criteria :checkbox').prop('checked', true);
-  $('#all_departments').on('click', function(e) {
-    $('#department_criteria :checkbox:gt(0)').prop('checked', $(this).is(':checked'));
-    fee_filter.filter();
-  });
+  
+  function handle() {
+    $('#all_departments').on('click', function(e) {
+      $('#department_criteria :checkbox:gt(0)').prop('checked', $(this).is(':checked'));
+      fee_filter.filter();
+    });
+  }
+  
+  handle();
+  handler.addHandler(handle);
 
 });
 
 var create_filter = function(data) {
+  $.each(master_fees, function(i, m) {
+    m.id = i + 1;
+  });
+  
   var template = Mustache.compile($.trim($("#template").html()));
 
   var view = function(fee) {
