@@ -2,16 +2,17 @@ $.getScript('http://localhost:9000/api/get/all?hash=' + hashData() + '&callback=
   $('#fees').html(''); // clear old data
   _Handler.removeAll(); // clear old handlers
   handler.initAll();
-  window.fee_filter = create_filter(masterful_fees);
+  window.fee_filter = create_filter(master_fees);
   console.log('hi');
 });
 
 function jsonpCallback(object) {
   if (!object) {
-    masterful_fees = getFees();
+    master_fees = getFees();
     return;
   }
   
+  master_fees = object;
   storeFees(object);
 }
 
