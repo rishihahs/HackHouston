@@ -1,14 +1,15 @@
 USE [HackHou2008]
 GO
 
-/****** Object:  StoredProcedure [dbo].[GetJSON]    Script Date: 5/28/2013 4:31:01 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetJSON]    Script Date: 5/31/2013 7:23:22 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE procedure [dbo].[GetJSON]
+
+ALTER procedure [dbo].[GetJSON]
 (
 @table_name varchar(50),
 @department varchar(50) = null,
@@ -126,7 +127,3 @@ if((select count(*) from information_schema.tables where table_name = @table_nam
 		select @json as json
 	end
 end
-
-GO
-
-
