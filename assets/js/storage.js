@@ -3,7 +3,6 @@ $.getScript('http://localhost:9000/api/get/all?hash=' + hashData() + '&callback=
   _Handler.removeAll(); // clear old handlers
   handler.initAll();
   window.fee_filter = create_filter(master_fees);
-  console.log('hi');
 });
 
 function jsonpCallback(object) {
@@ -11,7 +10,7 @@ function jsonpCallback(object) {
     master_fees = getFees();
     return;
   }
-  console.log('hey');
+  
   master_fees = object;
   storeFees(object);
 }
