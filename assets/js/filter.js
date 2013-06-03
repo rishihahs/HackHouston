@@ -6,6 +6,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *
  * Copyright 2013 Jiren Patel[ joshsoftware.com ]
+ * Modified by Rishi Shah
  *
  * Dependency:
  *  jQuery(v1.8 >=)
