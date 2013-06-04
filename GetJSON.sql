@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-ALTER procedure [dbo].[GetJSON]
+CREATE procedure [dbo].[GetJSON]
 (
 @table_name varchar(50),
 @department varchar(50) = null,

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web;
-//using RESTfulAPI.Models;
+using System.Configuration;
 
 namespace RESTfulAPI.Services
 {
@@ -17,8 +17,7 @@ namespace RESTfulAPI.Services
             SqlCommand command = null;
             var connectionString = string.Empty;
             var json = string.Empty;
-            connectionString = "Server=.\\SQLEXPRESS2008;Database=HackHou2008;Integrated Security=SSPI";
-           
+            connectionString = ConfigurationManager.ConnectionStrings["HackHou2008ConnectionString"].ConnectionString;
             conn = new SqlConnection(connectionString);
             command = new SqlCommand("GetJSON", conn);
                 
