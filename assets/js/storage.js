@@ -1,4 +1,4 @@
-$.getScript('http://localhost:9000/api/get/all?hash=' + hashData() + '&callback=jsonpCallback', function(){
+$.getScript(window.city_config['api url'] + '/get/all?hash=' + hashData() + '&callback=jsonpCallback', function(){
   $('#fees').html(''); // clear old data
   _Handler.removeAll(); // clear old handlers
   handler.initAll();
