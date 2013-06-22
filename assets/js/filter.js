@@ -94,7 +94,7 @@
         el = $container.append(el);
       }
     },
-    
+
     prevEvent: null, // Previous event fire
 
     //Bind Events to filter html elements
@@ -116,9 +116,13 @@
           wait: 600,
           highlight: true,
           captureLength: 0
-        }
-                
+        };
+
         $(this.options.search.input).typeWatch(options);
+
+        if (this.options.search.wholeword) {
+          $(this.options.search.wholeword).change(function(e) {self.filter();});
+        }
       }
     },
 
@@ -323,12 +327,18 @@
       var id_prefix = '#' + this.root + '_';
       val = val.toUpperCase();
 
+      if (search_config.wholeword)
+        var searchWholeWord = $(search_config.wholeword).prop('checked');
+
       return $.map(filter_result, function(id) {
         var $ele = $(id_prefix + id);
-
         if (serach_in) $ele = $ele.find(serach_in);
-
-        if ($ele.text().toUpperCase().indexOf(val) >= 0) return id;
+        var eleText = $ele.text().toUpperCase();
+        if(searchWholeWord) {
+          if (eleText.match('\\b' + val + '\\b')) return id;
+        } else {
+          if (eleText.indexOf(val) >= 0) return id;
+        }
       });
     },
 
@@ -398,7 +408,7 @@
       return this.content_tag('a', attrs, content)
     },
 
-    /** 
+    /**
      * Image Tag:
      * i.e. this.image('/test.png', {class: 'image'})
      **/

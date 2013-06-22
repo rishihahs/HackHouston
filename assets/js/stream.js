@@ -68,7 +68,8 @@ var create_filter = function(data) {
     and_filter_on: true,
     callbacks: callbacks,
     search: {
-      input: '#searchbox'
+      input: '#searchbox',
+      wholeword: '#searchwholeword'
     }
     /*,
     streaming: {
