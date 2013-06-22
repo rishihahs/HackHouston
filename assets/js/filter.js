@@ -35,6 +35,8 @@
     this.record_ids = [];
 
     if (this.data.constructor != Array) this.data = [this.data];
+    
+    this.output = this.data.slice(0); // Sorted output
 
     for (var name in this.data[0]) {
       this.root = name;
@@ -52,7 +54,7 @@
       this.root = 'fjs';
     }
 
-    this.render(this.data);
+    this.render(this.data.slice(0, window.city_config['block size']));
     this.parseOptions();
     this.buildCategoryMap(this.data);
     this.bindEvents();
@@ -76,7 +78,11 @@
   };
 
   _FilterJS.prototype = {
-
+    // Get Sorted Output
+    getOutput: function() {
+      return this.output;
+    },
+    
     //Render Html using JSON data
     render: function(data) {
       var $container = $(this.container),
@@ -158,8 +164,8 @@
         selected_vals = $(s.element).filter(s.select).map(function() {
           return $(this).val();
         });
-
-        if (selected_vals.length) {
+        
+        if (selected_vals.length) { // CHANGE
           records = this.findObjects(selected_vals, this.categories_map[s.name], this.options.filter_types[s.type]);
 
           result = $.grep((result || this.record_ids), function(v) {
@@ -312,10 +318,15 @@
         i = 0,
         l = ids.length;
 
-      $(this.container + ' > *[data-fjs]').hide();
+      $(this.container + ' > *[data-fjs]').remove();
+      this.output = [];
 
-      for (i; i < l; i++)
-        $(e_id + ids[i]).show();
+      for (i; i < l; i++) {
+        this.output.push(this.data[ids[i] - 1]);
+      }
+      
+      this.render(this.output.slice(0, window.city_config['block size']));
+      $.waypoints('refresh');
     },
 
     search: function(search_config, filter_result) {
@@ -323,17 +334,31 @@
 
       if (val.length < 2) return filter_result;
 
+      /**
+       * CHANGED: The following searches DOM elements, we need to search
+       * the array
+       */
       var serach_in = search_config.serach_in;
       var id_prefix = '#' + this.root + '_';
       val = val.toUpperCase();
 
-      if (search_config.wholeword)
+      if (search_config.wholeword) {
         var searchWholeWord = $(search_config.wholeword).prop('checked');
+      }
 
+      var self = this;
       return $.map(filter_result, function(id) {
-        var $ele = $(id_prefix + id);
-        if (serach_in) $ele = $ele.find(serach_in);
-        var eleText = $ele.text().toUpperCase();
+        /* The following searches DOM */
+        //         var $ele = $(id_prefix + id);
+        //         if (serach_in) $ele = $ele.find(serach_in);
+        //         var eleText = $ele.text().toUpperCase();
+        
+        var eleText = '';
+        $.each(self.data[id - 1], function(key, value) {
+          eleText += value + ' ';
+        });
+        eleText = eleText.toUpperCase();
+        
         if(searchWholeWord) {
           if (eleText.match('\\b' + val + '\\b')) return id;
         } else {
