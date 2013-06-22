@@ -1,7 +1,7 @@
 .thumbnail {
-  height: 350px;
   background-color: #D3D3D3;
   overflow: scroll;
+  min-height: 0;
 }
 
 .amount {
