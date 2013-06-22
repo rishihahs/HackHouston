@@ -29,27 +29,30 @@
           </div>
         </div>
       </div>
+      <div class="col-span-9" id="fee-categories">
+      </div>
       <div class="fees content col-span-9" id="fees">
       </div>
       <script id="template" type="text/html">
         <div class="col-span-12 fee">
-                  <div class="thumbnail">
-                    <span class="label label-success rating">{{AMOUNT}}</span>
-                    <div class="caption">
-                      <h4>{{Name}}</h4>
-                      <div class="detail">
-                        <dl>
-                          <dt>Description</dt>
-                          <dd>{{Description}}</dd>
-                          <dt>Responsible Department</dt>
-                          <dd>{{ResponsibleDepartment}}</dt>
-                          <dt>Statutory Authority</dt>
-                          <dd>{{StatutoryAuthority}}</dd>
-                        </dl>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+          <div class="thumbnail">
+            <span class="label label-success rating">{{AMOUNT}}</span>
+            <div class="caption">
+              <h4>{{Name}}</h4>
+              <div class="detail">
+                <dl>
+                  <dt>Description</dt>
+                  <dd>{{Description}}</dd>
+                  <dt>Responsible Department</dt>
+                  <dd>{{ResponsibleDepartment}}</dt>
+                  <dt>Statutory Authority</dt>
+                  <dd>{{StatutoryAuthority}}</dd>
+                </dl>
+              </div>
+            </div>
+            <span style="display:none;">{{TagString}}</span>
+          </div>
+        </div>
       </script>
       <script id="department_template" type="text/html">
         <div class="checkbox">

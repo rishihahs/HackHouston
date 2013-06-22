@@ -30,24 +30,25 @@ jQuery(document).ready(function($) {
   window.fee_filter = create_filter(master_fees);
 
   $('#department_criteria :checkbox').prop('checked', true);
-  
+
   function handle() {
     $('#all_departments').on('click', function(e) {
       $('#department_criteria :checkbox:gt(0)').prop('checked', $(this).is(':checked'));
       fee_filter.filter();
     });
   }
-  
+
   handle();
   handler.addHandler(handle);
 
 });
 
 var create_filter = function(data) {
-  $.each(master_fees, function(i, m) {
+  $.each(data, function(i, m) {
     m.id = i + 1;
+    m.TagString = (typeof m.Tags != 'undefined') ? m.Tags.join(' ') : '';
   });
-  
+
   var template = Mustache.compile($.trim($("#template").html()));
 
   var view = function(fee) {
@@ -57,7 +58,7 @@ var create_filter = function(data) {
   var callbacks = {
     show_search_count: function(result) {
       $('#total_fees').text(result.length);
-    },
+    }
   };
 
   options = {
@@ -71,14 +72,14 @@ var create_filter = function(data) {
     }
     /*,
     streaming: {
-      data_url: 'data/top_movies_data.json', 
+      data_url: 'data/top_movies_data.json',
       stream_after: 1,
       batch_size: 50,
       before_add: function(data){
         var offset = this.data.length;
 
         if (offset == 450) this.clearStreamingTimer();
-        
+
         for(var i = 0, l = data.length; i < l; i++)
           data[i].id = offset + i + 1;
       },
@@ -88,7 +89,7 @@ var create_filter = function(data) {
         if (percent == 100) $('#stream_progress').parent().fadeOut(1000);
       }
     }*/
-  }
+  };
 
   return FilterJS(data, "#fees", view, options);
 }

@@ -1,16 +1,16 @@
-$.getScript(window.city_config['api url'] + '/get/all?hash=' + hashData() + '&callback=jsonpCallback', function(){
+/*$.getScript(window.city_config['api url'] + '/get/all?hash=' + hashData() + '&callback=jsonpCallback', function(){
   $('#fees').html(''); // clear old data
   _Handler.removeAll(); // clear old handlers
   handler.initAll();
   window.fee_filter = create_filter(master_fees);
-});
+});*/
 
 function jsonpCallback(object) {
   if (!object) {
     master_fees = getFees();
     return;
   }
-  
+
   master_fees = object;
   storeFees(object);
 }
@@ -20,7 +20,7 @@ function hashData() {
   if (!data) {
     return null;
   }
-  
+
   return md5(JSON.stringify(data));
 }
 
