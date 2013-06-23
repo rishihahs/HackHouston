@@ -3,6 +3,7 @@ $.getScript(window.city_config['api url'] + '/get/all?hash=' + hashData() + '&ca
   _Handler.removeAll(); // clear old handlers
   handler.initAll();
   window.fee_filter = create_filter(master_fees);
+  $.waypoints('refresh');
 });
 
 function jsonpCallback(object) {
