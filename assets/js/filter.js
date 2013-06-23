@@ -338,7 +338,6 @@
        * CHANGED: The following searches DOM elements, we need to search
        * the array
        */
-      var serach_in = search_config.serach_in;
       var search_in = search_config.search_in;
       var id_prefix = '#' + this.root + '_';
       val = val.toUpperCase();
