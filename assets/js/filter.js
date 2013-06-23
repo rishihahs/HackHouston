@@ -153,7 +153,7 @@
       this.record_ids = null;
     },
 
-    //Find elements accroding to selection criteria.
+    //Find elements according to selection criteria.
     filter: function() {
       var result, s, selected_vals, records, selected_none = false,
         i = 0,
@@ -339,6 +339,7 @@
        * the array
        */
       var serach_in = search_config.serach_in;
+      var search_in = search_config.search_in;
       var id_prefix = '#' + this.root + '_';
       val = val.toUpperCase();
 
