@@ -1,6 +1,6 @@
 .thumbnail {
   background-color: #D3D3D3;
-  overflow: scroll;
+  overflow: auto;
   min-height: 0;
 }
 
