@@ -44,6 +44,13 @@ jQuery(document).ready(function($) {
 });
 
 var create_filter = function(data) {
+  data.sort(function(a, b) {
+    var one = parseFloat(b['AMOUNT'].replace(/[^0-9.]/, ''), 10) || 0;
+    var two = parseFloat(a['AMOUNT'].replace(/[^0-9.]/, ''), 10) || 0;
+    
+    return one - two;
+  });
+  
   $.each(data, function(i, m) {
     m.id = i + 1;
     m.TagString = (typeof m.Tags != 'undefined') ? m.Tags.join(' ') : '';
