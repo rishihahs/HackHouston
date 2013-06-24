@@ -1,7 +1,4 @@
-Fees Data UI
-===========
-
-####Winner of the Houston Open Innovation Hackathon####
+####Fees Data UI - Winner of the Houston Open Innovation Hackathon####
 
 The City of Houston asked for a new UI for its fees data. "Better, more intuitive design, additional metadata, and better searching. If you build it, we'll use it."
 
