@@ -1,11 +1,11 @@
-HackHouston
+Fees Data UI
 ===========
 
-##Fees Data UI - Winner of the Houston Open Innovation Hackathon##
+####Winner of the Houston Open Innovation Hackathon####
 
 The City of Houston asked for a new UI for its fees data. "Better, more intuitive design, additional metadata, and better searching. If you build it, we'll use it."
 
-- Bruce Haupt, Performance Improvement Director, Finance 
+> Bruce Haupt, Performance Improvement Director at the City of Houston 
    
 We built it.  Check out the new search & filtering interface:
 
