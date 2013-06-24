@@ -15,4 +15,13 @@
   margin-top: -5px;
   margin-left: -5px;
   background: #21B2AA;
+  display: none;
+}
+
+#embed {
+  text-align: center;
+}
+
+#embed .des {
+  display: none;
 }
