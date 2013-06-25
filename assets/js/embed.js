@@ -4,6 +4,8 @@
 
   showEmbed();
   handler.addHandler(showEmbed);
+  
+  window.embedBoxClick = checkboxClick;
 
   function showEmbed() {
     $('#embed .link').click(function() {
@@ -14,11 +16,21 @@
       }, 600);
       
       if ($('#fees').hasClass('show-embed')) {
+        var html = $.trim($("#template").html());
+        window.fee_template = html;
+        
         $('.fee .embed-bar').remove();
         $('#fees').removeClass('show-embed');
       } else {
-        $('.fee .rating').after('<span class="label label-success embed-bar"><span>Embed</span> <input type="checkbox"></span>');
+        var html = $('<div>' + $.trim($("#template").html()) + '</div>');
+        var embed = '<span class="label label-success embed-bar"><span>Embed</span> <input type="checkbox"></span>';
+        
+        $('.rating', html).after(embed);
+        window.fee_template = $.trim(html.html());
+        
+        $('.fee .rating').after(embed);
         $('.fee .embed-bar').hide().show(0);
+        
         checkboxClick();
         $('#fees').addClass('show-embed');
       }

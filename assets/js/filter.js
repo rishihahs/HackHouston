@@ -16,19 +16,20 @@
 
   'use strict';
 
-  var FilterJS = function(data, container, view, options) {
-    return new _FilterJS(data, container, view, options);
+  var FilterJS = function(data, container, view, options, afterView) {
+    return new _FilterJS(data, container, view, options, afterView);
   };
 
   FilterJS.VERSION = '1.5.0';
 
   window.FilterJS = FilterJS;
 
-  var _FilterJS = function(data, container, view, options) {
+  var _FilterJS = function(data, container, view, options, afterView) {
     var property_count = 0;
 
     this.data = data;
     this.view = view;
+    this.afterView = afterView;
     this.container = container;
     this.options = options || {};
     this.categories_map = {}
@@ -99,6 +100,8 @@
         });
         el = $container.append(el);
       }
+      
+      this.afterView();
     },
 
     prevEvent: null, // Previous event fire

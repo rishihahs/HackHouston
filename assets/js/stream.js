@@ -56,11 +56,15 @@ var create_filter = function(data) {
     m.TagString = (typeof m.Tags != 'undefined') ? m.Tags.join(' ') : '';
   });
 
-  var template = Mustache.compile($.trim($("#template").html()));
+  window.fee_template = $.trim($("#template").html());
 
   var view = function(fee) {
-    return template(fee);
+    return Mustache.render(window.fee_template, fee);
   };
+  
+  var afterView = function() {
+    embedBoxClick();
+  }
 
   var callbacks = {
     show_search_count: function(result) {
@@ -99,5 +103,5 @@ var create_filter = function(data) {
     }*/
   };
 
-  return FilterJS(data, "#fees", view, options);
+  return FilterJS(data, "#fees", view, options, afterView);
 }
